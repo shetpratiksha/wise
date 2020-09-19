@@ -1,0 +1,51 @@
+<md-dialog class="commonDialog newUser">
+    <md-toolbar class="md-accent">
+        <div class="md-toolbar-tools">
+            <h2>Edit User</h2>
+        </div>
+    </md-toolbar>
+    <form name="editUser" novalidate>
+        <md-dialog-content>
+            <md-content>
+                <h4 layout="row" class="rowPadding">
+                    <span flex="15">Email: </span>
+                    <span flex="85">{{ userData.email }}</span>
+                </h4>
+                <div layout="row" class="rowPadding">
+                    <div flex="15" style="display: inline-block">
+                        <h4 flex>Role:</h4>
+                    </div>
+                    <div flex="85">
+                        <md-radio-group layout="row" name="role" ng-model="user.role" required>
+                            <md-radio-button value="ADMIN"> Admin </md-radio-button>
+                            <md-radio-button value="ANALYST">Analyst</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+
+                <div layout="row" layout-wrap flex>
+                    <div>
+                            <md-checkbox class="selectUnderLine" aria-label="Select All" ng-checked="isChecked()" md-indeterminate="isIndeterminate()" ng-click="toggleAll()" ng-class="{'disableCheck': disableCheck }">
+                                    <span ng-if="isChecked()">Un-</span>Select All Account
+                            </md-checkbox>
+                    </div>
+                    <div class="demo-select-all-checkboxes" flex="100" ng-repeat="item in accountList">
+                            <md-checkbox name="account" ng-model="account" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"  ng-class="{'disableCheck': disableCheck }" ng-required="selected.length==0">
+                                    {{ item.displayName }}
+                            </md-checkbox>
+                    </div>
+                </div>
+            </md-content>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="closeDialog()">
+                Cancel
+            </md-button>
+            <md-button class="md-raised md-accent margin-right-10" ng-disabled="editUser.$pristine || editUser.$invalid" ng-click="saveEditUser()">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

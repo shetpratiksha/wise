@@ -1,0 +1,23 @@
+<md-card ng-controller="LogoutController">
+    <md-toolbar class="padding-20 text-center">
+        <img ng-src="{{::vm.triSettings.logo}}" alt="{{vm.triSettings.name}}">
+        <h1 class="md-headline" translate>AMS Access</h1>
+    </md-toolbar>
+
+    <md-content class="md-padding">
+        
+        <div layout = "row" layout-sm = "column" flex  layout-align="left center">
+            <div class="row access-main">
+                <center>
+                    <div class="row access-inner">
+                        <h3>Please provide access to AMS to the following email amazon@intentwise.com</h3>
+                        <h3>Once the data starts flowing in we will let you know. Usually it takes around 2-3 days.</h3>
+                        <h3>Thanks for signing up with Intentwise.</h3>
+                    </div>
+                    <md-button class="md-raised md-accent full-width margin-left-0 margin-right-0 margin-top-10 margin-bottom-10" ng-click="logout()" translate="Ok, Got it" aria-label="{{'Reset' | triTranslate}}"></md-button>
+                </center>
+            </div>
+        </div>
+        
+    </md-content>
+</md-card>

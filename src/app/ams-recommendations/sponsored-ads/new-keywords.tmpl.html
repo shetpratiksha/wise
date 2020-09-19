@@ -1,0 +1,98 @@
+<div class="modules-code md-whiteframe-z1">
+    
+    <div layout="row" class="recommendation" flex="grow">
+        <div ng-show="vm.loadingError" class="error-msg padding-10">
+                    {{vm.loadingError}}
+        </div>
+
+        <div ng-hide="isContentLoading || vm.loadingError" layout="column" style="background-color:white">
+
+            <md-toolbar class="md-table-toolbar bid-toolbar md-default" ng-hide="vm.loadingError || isContentLoading"
+            ng-class="{'bid-toolbar-h1': chips == undefined || chips.length<3, 'bid-toolbar-h2':  chips.length>=3 && chips.length <= 6, 'bid-toolbar-h3': chips.length>6}">
+
+              <div class="md-toolbar-tools">
+                
+                <div layout="column" style="margin-top: 10px">
+                    <div layout="row">
+                        <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-search" md-font-icon="zmdi zmdi-search" aria-hidden="true" style="cursor: pointer;color: gray;position:absolute;z-index:1;margin-top: -2px;" ng-hide="searchtext.length">
+                            <md-tooltip md-direction="left">Search by column</md-tooltip>
+                        </md-icon>
+                        <input type="text" placeholder="Search by any column"  class="search-input" ng-change="filterRecommendations()" ng-model="searchtext" style="padding-left: 24px; margin-left: -28px;">
+                    
+                        <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-close" md-font-icon="zmdi zmdi-close" aria-hidden="true" style="cursor: pointer;color: gray;position:absolute;z-index: 1;margin-top: -2px;" ng-click="clearFilter()" ng-show="searchtext.length">
+                            <md-tooltip md-direction="left" >Clear Search</md-tooltip>
+                        </md-icon>
+                    </div>
+                    <div style="color: green; font-size: 14px;margin-top: 30px;"> 
+                        <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-info-outline" md-font-icon="zmdi zmdi-filter-list" aria-hidden="true" style="color: green;" >
+                        </md-icon>
+                        <span >Recommendations as on {{recommededOn | date:'yyyy-MM-dd'}}</span>
+                    </div>
+                </div>
+
+                <md-button
+                class="md-raised md-accent margin-right-10"
+                ng-click="vm.recommendation.error=false;vm.showConfirmationDialog()"
+                ng-disabled="selected.length == 0" translate="Upload Keywords"
+                aria-label="{{'Upload Keywords' | triTranslate}}" style="right: 40px; position: fixed;color:white;"></md-button>
+
+                <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-download" md-font-icon="zmdi zmdi-download" style="position: fixed;right: 10px;cursor: pointer;" title="Download CSV" ng-click="downloadData()"  >
+                </md-icon>
+                <span id="csv-data" ng-csv="keywordsToDownload" csv-header="headers" filename="sponsored_keyword_recommendations.csv" field-separator="," decimal-separator="." />
+              </div>
+              
+            </md-toolbar>
+
+           <!--  <div ng-show="vm.error" class="error-msg">
+                {{vm.error}}
+            </div> -->
+             <div id="filterOptions"></div>
+            <md-table-container flex class="table-container" flex ng-class="{'table-container-1': chips == undefined || chips.length<3, 'table-container-2':  chips.length>=3 && chips.length <= 6, 'table-container-3': chips.length>6}" float-thead="floatValue" float-thead-enabled="floatEnable" ng-model="keywords" ng-hide="vm.loadingError || isContentLoading">
+              <table md-table md-row-select multiple ng-model="selected" md-progress="deferred" > 
+
+                <thead class="head-cls" md-head md-order="query.order" id="scrollHead">
+                  <tr md-row>
+                    <th md-column md-order-by="campaign" title="Campaign"><span>Campaign</span></th>
+                    <th md-column md-order-by="keyword" title="Keyword"><span>Keyword</span></th>
+                    <th md-column md-order-by="suggestedKeyword" title="Suggested Keyword"><span>Suggested Keyword</span></th>
+                    
+                    <th md-column md-numeric class="padding-top-10" title="Default Bid">Default Bid<md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-info-outline" md-font-icon="zmdi zmdi-info-outline" aria-hidden="true" style="padding-top:3px;visibility: hidden;"></md-icon>
+                    </th>
+                    <th md-column title="Search Query"><span>Search Query</span>
+                        <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-info-outline" md-font-icon="zmdi zmdi-info-outline" aria-hidden="true" style="padding-top:5px" title="Hover on the queries to see the complete list of mined queries" style="cursor: pointer;"></md-icon>
+                    </th>
+                    <th md-column title="Match Type">Match Type</th>
+                    <th md-column md-numeric md-order-by="impression" class="lastIndex" style="position: relative;">Impressions
+                        <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-info-outline" md-font-icon="zmdi zmdi-info-outline" aria-hidden="true" title="Impressions for 7 days" style="cursor: pointer;padding-top:3px;position: absolute;right:12px;"></md-icon>
+                    </th>
+                    <th md-column md-order-by="status" md-numeric ng-show="showStatus" title="Failed Status">Failed Status</th>
+                  </tr>
+                </thead>
+                <tbody md-body class="tbody-cls">
+                  <tr md-row md-select="keyWordBid"  ng-repeat="keyWordBid in keywords | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit" ng-disabled="keyWordBid.updatedStatus == 'UPDATED'"
+                  ng-class="{'error-row': keyWordBid.status.length > 0, 'updated-row': keyWordBid.updatedStatus != '' && keyWordBid.updatedStatus != null}"
+                  >
+                    <td md-cell title="{{keyWordBid.campaign}}">{{keyWordBid.campaign}}</td>
+                    <td md-cell title="{{keyWordBid.keyword}}">{{keyWordBid.keyword}}</td>
+                    <!--td md-cell>{{keyWordBid.suggestedKeyword}}</td-->
+                    <td md-cell title="{{keyWordBid.keyword}} {{keyWordBid.missingIntent}}"><span>{{keyWordBid.keyword}} </span><span class="highlight-text"> {{keyWordBid.missingIntent}}</span></td>
+                    <td md-cell ng-click="editBid($event, keyWordBid)" style="cursor: default;" class="bid-edit" title="{{keyWordBid.defaultBid}}">{{keyWordBid.defaultBid}} <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-edit" md-font-icon="zmdi zmdi-edit" aria-hidden="true" ng-hide="keyWordBid.updatedStatus == 'UPDATED'" style="cursor: pointer;"></md-icon></td>
+                    <td md-cell title="{{keyWordBid.searchQueries}}">
+                        {{keyWordBid.searchQueries}}
+                    </td>
+                    
+                    <td md-cell title="{{keyWordBid.matchType}}">{{keyWordBid.matchType}}</td>
+                    <td md-cell title="{{keyWordBid.impression}}" class="lastIndex">{{keyWordBid.impression}}</td>
+                    <td md-cell ng-show="showStatus" style="color:red" title="{{keyWordBid.status}}">{{keyWordBid.status}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </md-table-container>
+
+            <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{keywords.length}}"  md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" class="pag-cls"></md-table-pagination>
+
+        </div>
+    </div>
+</div>
+
+

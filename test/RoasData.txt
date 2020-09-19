@@ -1,0 +1,26 @@
+Account Roas data:
+
+{
+    "accountId": 10190,
+    "name": "Intentwise",
+    "roas": 13
+}
+
+
+campaign Rosa data:
+[
+{
+        "roasId": 290,
+        "accountId": 10110,
+        "campaignType": "sponsoredProducts",
+        "campaignName": "SP_Manual_Promo_BTSoffice_201603",
+        "roas": 120,
+        "campaignId": 96938560789729
+    },
+    {
+        "accountId": 10110,
+        "campaignType": "sponsoredProducts",
+        "campaignName": "Dinosaurs",
+        "campaignId": 115816350962764
+    }
+]

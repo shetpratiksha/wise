@@ -1,0 +1,116 @@
+<md-dialog  style="min-width:80%; min-height:60%" id="cpcBids"> 
+  <md-toolbar class="md-accent">
+      <div style="padding: 10px 20px">
+        Change CPC Bids
+      </div>
+  </md-toolbar>
+  <md-dialog-content>
+  	<div layout="row" style="min-height: 300px">  
+  		<div flex-30 class="edit-options" ng-hide="action=='preview' && error == undefined">
+  		  <md-radio-group ng-model="editType" >
+
+          <md-radio-button value="new-bid" class="md-primary" ng-click="changeEditType()">Set New Bid</md-radio-button>
+          <md-radio-button value="increase-bid" ng-click="changeEditType()"> Increase Bids </md-radio-button>
+          <md-radio-button value="decrease-bid" ng-click="changeEditType()">Decrease Bids</md-radio-button>
+          <md-radio-button value="recommendations" ng-click="changeToRecommendation()">Apply Recommendations</md-radio-button>
+    
+        </md-radio-group>
+  		</div>
+  		<div flex-70 ng-class="action=='preview' && error == undefined ? 'edit-option-details-1' : 'edit-option-details'" ng-hide="editType=='recommendations'">
+  		  <div ng-show="editType=='new-bid'"> 
+    		  <div style="margin: 40px 20px">
+    		    $ <input type="number" min=0 class="pop-filter-input pop-input-border" ng-class="{'error-border': error, 'pop-input-border': error == undefined || error ==''}" ng-model="amount">
+    		  </div>
+  		  </div>
+  		  <div ng-show="editType=='increase-bid'"> 
+    		  <div style="margin:10px;" >
+    		    <md-radio-group ng-model="editByType" layout-gt-sm="row" ng-click="changeEditByType()">
+              <md-radio-button value="percentage" class="md-primary" ng-click="changeEditByType()">Increase By Percentage</md-radio-button>
+              <md-radio-button value="amount"> Increase By Amount </md-radio-button>
+            </md-radio-group>
+            <div ng-show="editByType=='amount'">
+              <div style="margin-top: 20px">
+        		    $ <input type="number" min=0 class="pop-filter-input pop-input-border" ng-class="{'error-border': error, 'pop-input-border': error == undefined || error ==''}" ng-model="amount" >
+        		  </div>
+            </div>
+            <div ng-show="editByType=='percentage'">
+              <div style="margin-top: 20px">
+        		    %<input type="number" min=0 class="pop-filter-input pop-input-border" ng-class="{'error-border': error, 'pop-input-border': error == undefined || error ==''}" ng-model="amount" >
+        		  </div>
+            </div>
+            <!--div>
+              <div class="upper-bid-limit">Upper bid limit (optional)</div>
+              <div>
+        		    $ <input type="number" min=0 class="pop-filter-input pop-input-border"  ng-model="upperBidLimit" style="max-width: 200px;">
+        		  </div>
+            </div-->
+    		  </div>
+  		  </div>
+  		  <div ng-show="editType=='decrease-bid'"> 
+    		  <div style="margin:10px;" >
+    		    <md-radio-group ng-model="editByType" layout-gt-sm="row">
+              <md-radio-button value="percentage" class="md-primary" ng-click="changeEditByType()">Decrease By Percentage</md-radio-button>
+              <md-radio-button value="amount" ng-click="changeEditByType()"> Decrease By Amount </md-radio-button>
+            </md-radio-group>
+            <div ng-show="editByType=='amount'">
+              <div style="margin-top: 20px">
+              		
+        		    $ <input type="number" min=0 class="pop-filter-input pop-input-border" ng-class="{'error-border': error, 'pop-input-border': error == undefined || error ==''}" ng-model="amount" >
+        		  </div>
+            </div>
+            <div ng-show="editByType=='percentage'">
+              <div style="margin-top: 20px">
+        		    %<input type="number" min=0 class="pop-filter-input pop-input-border" ng-class="{'error-border': error, 'pop-input-border': error == undefined || error ==''}" ng-model="amount" style="max-width: 200px;">
+        		  </div>
+            </div>
+            <!--div>
+              <div class="upper-bid-limit">Upper bid limit (optional)</div>
+              <div >
+        		    $ <input type="number" min=0 class="pop-filter-input pop-input-border" ng-model="lowerBidLimit" style="max-width: 200px;">
+        		  </div>
+            </div-->
+    		  </div>
+  		  </div>
+  		  
+  		</div>
+  		<div flex-70 class="preview-area" ng-show="(action=='preview' && error == undefined) || editType=='recommendations'">
+  		  <div style="overflow: auto">
+              <md-table-container flex class="table-container"  flex >
+              <table md-table> 
+
+                <thead class="head-cls" md-head >
+                  <tr md-row>
+                    <th md-column md-order-by="keywordText"><span>Keyword</span></th>
+                    <th md-column md-order-by="campaign" ng-click="showLoader"><span>Campaign</span></th>
+                    <th md-column>Changes</th>
+                  </tr>
+                </thead>
+                <tbody md-body class="tbody-cls">
+                  <tr md-row md-select="keyWordBid"  ng-repeat="keyWordBid in selected">
+                    <td md-cell style="max-width: 40%">{{keyWordBid.keywordText}}</td>
+                    <td md-cell style="max-width: 30%">{{keyWordBid.campaign}}</td>
+                    <td md-cell style="max-width: 30%">from {{keyWordBid.currentBidCopy}} to {{keyWordBid.currentBid}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </md-table-container>
+           </div>
+  		</div>
+  	</div>  
+  </md-dialog-content> 
+  <md-dialog-actions style="border-top: 1px solid lightgray; max-height: 50px"> 
+  	<md-icon md-font-icon="zmdi zmdi-long-arrow-left md-accent" class="back-icon" ng-click="backToEditOptions()" ng-show="action=='preview' && error == undefined"></md-icon>
+
+    <div class="error-msg" style="margin-right: 40px;">{{error}}</div>
+    
+    <md-button ng-click="applyChanges()" class="md-primary md-confirm-button md-button md-ams-theme-theme md-ink-ripple md-raised md-accent" ng-disabled="(action != 'preview' && editType!='recommendations' && error == undefined)"> 
+  		Apply
+      </md-button> 
+      <md-button ng-click="previewChanges()" class="md-primary md-confirm-button md-button md-ams-theme-theme md-ink-ripple md-raised md-accent" ng-disabled="(action == 'preview' || editType=='recommendations') && (error == undefined) "> 
+  		Preview
+      </md-button> 
+      <md-button ng-click="cancelEdit()" class="md-primary md-confirm-button md-button md-ams-theme-theme md-ink-ripple"> 
+  		Cancel
+      </md-button> 
+  </md-dialog-actions> 
+</md-dialog>

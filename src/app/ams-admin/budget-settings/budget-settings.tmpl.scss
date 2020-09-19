@@ -1,0 +1,25 @@
+.budgetSetting {
+    md-content.md-ams-theme-theme {
+        z-index: 3;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.36);
+        background-color: rgb(255, 255, 255);
+    }
+    .budget-edit:hover md-icon.editIcon {
+        visibility: visible;
+    }
+    .budget-edit md-icon.editIcon {
+        visibility: hidden;
+    }
+    md-content.md-ams-theme-theme {
+        color: rgba(0, 0, 0, 0.87);
+        background-color: rgb(255, 255, 255);
+    }
+}
+
+md-edit-dialog {
+    min-width: 350px !important;
+}
+
+.layout-column .budgetSetting md-table-container.table-container.flex {
+    height: calc(100vh - 165px);
+}

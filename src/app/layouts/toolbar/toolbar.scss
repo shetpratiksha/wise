@@ -1,0 +1,42 @@
+.triangular-toolbar {
+    &.ng-enter {
+        transition: .5s;
+    }
+
+    &.ng-enter {
+      @include slideInDown();
+    }
+
+    &.ng-leave {
+      display: none;
+    }
+
+    md-select {
+    	margin-top : 15px
+    }
+}
+md-menu-bar.user_menu_bar{
+    padding-left:5px;
+}
+md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar{
+    background-color: #71A3F7 !important;
+}
+
+md-progress-linear .md-container{
+    height: 3px !important;
+}
+.md-select-menu-container.md-active{
+    z-index:99;
+}
+.md-open-menu-container.md-active{
+    overflow:hidden;
+   border-radius: 3px;
+}
+.md-subhead.userName{
+    position: relative;
+    padding-bottom: 3px;
+    line-height: inherit;
+}
+.md-dialog-container md-select{
+    margin:20px 0px 10px 0;
+}

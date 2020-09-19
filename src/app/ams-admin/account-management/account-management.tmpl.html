@@ -1,0 +1,17 @@
+<md-tabs class="accountManagement" md-selected="selectedTabIndex">
+    <div ng-controller="AmdAdminRegisterOrg">
+        <md-tab label="Register" ng-if="userRoleEqlSuperAdm">
+            <div ng-include="'app/ams-admin/account-management/template/register-organization.tmpl.html'"></div>
+        </md-tab>
+    </div>
+    <div ng-controller="AmdAdminUserManagement">
+        <md-tab md-on-select="userTabClicked()" label="User">
+            <div ng-include="'app/ams-admin/account-management/template/user-management.tmpl.html'"></div>
+        </md-tab>
+    </div>
+    <div ng-controller="AmdAdminAccountMgmt">
+    <md-tab md-on-select="accountTabClicked()" label="Account">
+        <div ng-include="'app/ams-admin/account-management/template/account-mgmt.tmpl.html'"></div>
+    </md-tab>
+    </div>
+</md-tabs>

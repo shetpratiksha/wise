@@ -1,0 +1,28 @@
+machine:
+  node:
+    version: 8.9.1
+  yarn:
+    version: 1.3.2
+  npm:
+    version: 5.1.1
+ 
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+
+test:
+  override:
+    - echo "test"
+
+dependencies:
+  override:
+    - npm install
+    - node_modules/bower/bin/bower install
+    - gulp build
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: staging-platform-web
+    commands:
+      - npm install

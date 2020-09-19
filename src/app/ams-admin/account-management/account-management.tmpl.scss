@@ -1,0 +1,126 @@
+.orgReg {
+    .orgContent {
+        color: rgba(0, 0, 0, 0.87);
+        background-color: rgb(255, 255, 255);
+        margin: 8px;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        border-radius: 2px;
+        margin: auto;
+        width: 550px;
+        background-color: white;
+    }
+    .marginAuto {
+        margin: auto;
+        padding-bottom: 40px;
+    }
+    .displaySubmitBt {
+        margin: auto;
+        display: block;
+    }
+    .layout-wrap {
+        padding-bottom: 10px;
+    }
+    @media (max-width: 550px) {
+        .orgContent {
+            margin: auto 15px auto 15px;
+            width: 100%;
+        }
+    }
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+    margin-top: 10%;
+}
+
+md-tabs.md-ams-theme-theme md-ink-bar {
+    color: rgb(255, 255, 255);
+    background: rgb(253, 180, 43);
+}
+
+md-ink-bar {
+    height: 4px;
+}
+
+.accountManagement {
+    md-tabs-wrapper {
+        border-width: 0 0 1px;
+        border-style: solid;
+    }
+    md-tabs-content-wrapper {
+        top: 50px;
+    }
+    a {
+        color: black !important;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.userManagement {
+    .md-toolbar-tools {
+        padding-left: 22px;
+        background: white;
+    }
+    table.md-table thead.md-head+.md-table-progress md-progress-linear {
+        top: -3px;
+        left: 28px;
+    }
+    .md-table-toolbar.layout-row {
+        min-width: 100% !important;
+        height: 100%;
+        overflow: hidden;
+        margin: auto;
+        position: relative;
+        top: 20px;
+    }
+}
+
+md-checkbox.disableCheck.md-ams-theme-theme.md-checked .md-icon {
+    background-color: rgba(160, 160, 160, 0.87);
+}
+
+.accountManagement {
+    .search-input {
+        width: 25% !important;
+    }
+    md-tabs-wrapper {
+        border-width: 0 0 1px;
+        border-style: solid;
+    }
+    md-tabs-content-wrapper {
+        top: 50px;
+    }
+}
+
+.commonDialogCss {
+    min-width: 360px;
+    width: 500px;
+    md-dialog-content {
+        overflow-y: auto;
+    }
+}
+
+md-dialog {
+    &.newUser {
+        @extend .commonDialogCss;
+    }
+    &.newAccount {
+        @extend .commonDialogCss;
+    }
+    &.editAccount {
+        @extend .commonDialogCss;
+    }
+    .userListDiv {
+        font-weight: 600;
+        font-size: 16px;
+        width: 100%;
+        padding-bottom: 10px
+    }
+}
+
+@media (max-width: 959px) and (min-width: 0) and (orientation: landscape) {
+    .md-toolbar-tools {
+        height: 56px;
+        max-height: 56px;
+    }
+}

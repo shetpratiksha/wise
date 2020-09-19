@@ -1,0 +1,9 @@
+<div id="map_terrain_canvas">
+    <ui-gmap-google-map center="vm.terrainMap.center" zoom="vm.terrainMap.zoom" options="vm.terrainMap.options">
+    	<ui-gmap-marker ng-repeat="marker in vm.mapMarkers" coords="marker.coords" idkey="marker.id" options="marker.options">
+            <ui-gmap-window show="'true'">
+                <div>{{marker.labelTitle}}</div>
+            </ui-gmap-window>
+        </ui-gmap-marker>
+    </ui-gmap-google-map>
+</div>

@@ -1,0 +1,165 @@
+.roasSetting {
+    td.md-cell.ng-binding {
+        width: 275px !important;
+        min-width: 100px !important;
+        max-width: 200px !important;
+        word-wrap: break-word;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+    .acos-edit {
+        padding: 24.5px 0 24.5px 0;
+        .acos-total {
+            padding-top: 4px;
+            padding-left: 12px;
+        }
+    }
+    md-content.md-ams-theme-theme {
+        z-index: 3;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.36);
+        background-color: rgb(255, 255, 255);
+    }
+    .md-toolbar-tools {
+        padding: 0px 27px;
+        background: white;
+    }
+    .pag-cls {
+        position: fixed;
+        left: 0px;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        bottom: 0px;
+        height: 50px;
+        right: 0px;
+        width: auto;
+        background: #fff;
+    }
+    md-card {
+        form {
+            padding: 0 30px 0 30px;
+        }
+    }
+    md-card.roasTable {
+        margin: 0px 25px 0px 25px;
+    }
+    .md-padding {
+        padding: 6px 16px;
+    }
+    .roasTotal {
+        md-input-container {
+            margin: 0px 15px;
+            padding-top: 25px;
+        }
+    }
+    md-card md-card-title {
+        padding: 5px 14px 4px;
+    }
+    .accountDiv {
+        display: inline-block;
+    }
+    .roas-edit:hover md-icon.editIcon {
+        visibility: visible;
+    }
+    .roas-edit md-icon.editIcon {
+        visibility: hidden;
+    }
+    .roas-edit md-icon {
+        cursor: pointer;
+    }
+    .search-input {
+        background: #ffffff;
+        left: 30px;
+        width: 100% !important;
+        position: relative !important;
+    }
+    .md-headline {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 32px;
+    }
+    .layout-row {
+        .flex-gt-xs-40 {
+            height: 50px;
+        }
+    }
+}
+
+table.md-table th.md-column.md-active md-icon.md-sort-icon,
+table.md-table th.md-column:hover md-icon.md-sort-icon {
+    min-width: 24px;
+}
+md-content .roasSetting table.md-table th.md-column,
+md-content .roasSetting table.md-table td.md-cell{
+    max-width:350px;
+}
+.roasSetting md-content.toolbar {
+    position: fixed;
+    top: 67px;
+    z-index: 1;
+    padding: 0 !important;
+    width: 100%;
+}
+
+@media (max-width: 960px) {
+    .roasSetting md-content.toolbar {
+        top: 51px;
+    }
+}
+
+.roasSetting md-content.toolbar md-card {
+    margin: 0;
+}
+
+.roasSetting.layout-row {
+    padding-top: 85px;
+}
+
+.roasSetting.layout-row md-card {
+    margin: 0;
+}
+
+.layout-column .roasSetting.layout-row md-card md-table-container.table-container.flex {
+    padding-top: 0px;
+    margin-right: 0px;
+    padding-bottom: 50px;
+    height: calc(100vh - 264px);
+    overflow: auto;
+    width: 100%;
+    display: block;
+    flex: unset;
+}
+md-dialog {
+    &.commonDialog {
+        min-width: 360px;
+        md-content {
+            background: white; 
+            padding: 0 20px 0 20px;
+            margin-top: 20px !important;
+            md-input-container {
+                width: 95%;
+            }
+        }
+        .rowPadding{
+            padding-bottom: 15px;
+        }
+        md-divider {
+            padding-bottom: 20px;
+        }
+        h4{
+            margin-bottom: 1rem;
+            margin-top: 0rem;
+        }
+        md-checkbox .md-label {
+            color: black;
+        }
+        .selectUnderLine{
+            .md-label {
+                border: solid;
+                border-width: 0 0px 1.4px 0;
+            }
+        }
+        
+        // .demo-select-all-checkboxes.ng-scope.flex-100 {
+        //     padding-left: 30px;
+        // }
+    }
+}

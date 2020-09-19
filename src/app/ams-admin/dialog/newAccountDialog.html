@@ -1,0 +1,46 @@
+<md-dialog class="commonDialog newAccount">
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools">
+                <h2>Add New account</h2>
+            </div>
+        </md-toolbar>
+        <form name="newAccount" novalidate>
+            <md-dialog-content>
+                <md-content>
+                    <md-input-container class="md-block marginAuto">
+                        <label>Account Name</label>
+                        <input required type="text" name="account" ng-model="account.name" />
+    
+                        <div ng-messages="newAccount.account.$error" role="alert">
+                            <div ng-message="required">
+                                Account name Required
+                            </div>
+                        </div>
+                    </md-input-container>
+    
+                    <div layout="row" layout-wrap flex>
+                        <div class="userListDiv">Users:</div>
+                        <div>
+                            <md-checkbox class="selectUnderLine" aria-label="Select All" ng-checked="isChecked()" md-indeterminate="isIndeterminate()" ng-click="toggleAll()">
+                                <span ng-if="isChecked()">Un-</span>Select All Account
+                            </md-checkbox>
+                        </div>
+                        <div class="demo-select-all-checkboxes" flex="100" ng-repeat="item in userListData">
+                            <md-checkbox name="account" ng-model="account" ng-required="selected.length==0" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                                {{ item.email }}
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </md-content>
+            </md-dialog-content>
+    
+            <md-dialog-actions layout="row">
+                <md-button ng-click="closeDialog()">
+                    Cancel
+                </md-button>
+                <md-button class="md-raised md-accent margin-right-10" ng-disabled="newAccount.$pristine || newAccount.$invalid" ng-click="addnewAccount()">
+                    Add
+                </md-button>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>

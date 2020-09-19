@@ -1,0 +1,48 @@
+<div class="modules-code md-whiteframe-z1">
+    <div ng-show="vm.loadingError" class="error-msg padding-10">
+        {{vm.loadingError}}
+    </div>
+    <div layout="row" ng-hide="vm.isLoading || vm.loadingError" class="budgetSetting" flex="grow">
+        <div flex="grow">
+            <md-content class="md-padding toolbar" layout="row">
+                <md-input-container flex-xs flex-gt-xs="20" layout="column">
+                    <label>Selected Year</label>
+                    <md-select ng-model="year" ng-change="yearChanged()">
+                        <md-option ng-repeat="year in years" ng-value="year">
+                            {{year}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-button flex-xs flex-gt-xs="30" layout="column" class="md-raised md-accent margin-right-10" ng-click="budgetBulkEdit($event)" ng-disabled="checkLength()" ng-disabled="selected.length == 0" translate="Edit Budget" aria-label="Edit Budget" style="right: 10px; top: 28px; position: absolute;color:white">
+                </md-button>
+            </md-content>
+            <!-- <md-progress-linear md-mode="indeterminate" ng-show="budgetEditLoading"></md-progress-linear> -->
+            <md-table-container flex class="table-container" ng-hide="vm.isLoading || vm.loadingError" float-thead="floatValue" float-thead-enabled="floatEnable" ng-model="budgetData">
+                <table md-table md-row-select multiple ng-model="selected" md-progress="deferred" >
+
+                    <thead class="head-cls" md-head md-order="query.order" md-on-reorder="getDesserts">
+                        <tr md-row>
+                            <th md-column><span>Month</span></th>
+                            <th md-column><span>Budget</span></th>
+                        </tr>
+                    </thead>
+                    <tbody md-body class="tbody-cls">
+                        <tr md-row ng-disabled="!BudgetData.edit" md-select="BudgetData" ng-repeat="BudgetData in budgetData | orderBy: 'ordinal' | limitTo: query.limit : (query.page -1) * query.limit">
+                            <td md-cell>{{BudgetData.month}}</td>
+                            <td md-cell class="budget-edit" ng-click="editBudget($event, BudgetData)"><span ng-if="BudgetData.budget != undefined">{{BudgetData.budget | currency: currency}}</span>
+                                <md-icon ng-if="BudgetData.budget == undefined && BudgetData.edit" class="md-cyan-theme md-font material-icons zmdi zmdi-edit" md-font-icon="zmdi zmdi-edit" aria-hidden="true">
+                                </md-icon>
+                                <md-icon ng-if="BudgetData.budget != undefined && BudgetData.edit" class="md-cyan-theme editIcon md-font material-icons zmdi zmdi-edit" md-font-icon="zmdi zmdi-edit" aria-hidden="true">
+                                </md-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+
+            <!-- <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{budgetData.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" class="pag-cls"></md-table-pagination> -->
+
+        </div>
+    </div>
+</div>

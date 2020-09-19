@@ -1,0 +1,47 @@
+<div class="orgReg cardView">
+        <md-content layout-padding class="orgContent" style="background-color: white;">
+            <form name="orgForm" ng-submit="registerOrg($event, orgForm)">
+                <div layout-gt-sm="row">
+                    <div class="md-block marginAuto" flex="50" flex-xs="90">
+                        <h2>Register Organization</h2>
+                    </div>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block marginAuto" flex="50" flex-xs="90">
+                        <label>Organization name</label>
+                        <input name="orgName" ng-model="org.orgName" ng-minlength="3" required>
+                        <div ng-messages="orgForm.orgName.$error" role="alert">
+                            <div ng-message="required">
+                                Organization name required.
+                            </div>
+                            <div ng-message="minlength">
+                                Organization name Too short!.
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+
+                    <md-input-container class="md-block marginAuto" flex="50" flex-xs="90">
+                        <label>Email</label>
+                        <input required type="email" name="orgEmail" ng-model="org.orgEmail" ng-pattern="/^.+@.+\..+$/" />
+
+                        <div ng-messages="orgForm.orgEmail.$error" role="alert">
+                            <div ng-message="pattern">
+                                Not a valid Email.
+                            </div>
+                            <div ng-message="required">
+                                Email Required
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                </div>
+                <section layout="row" layout-align="center center" layout-wrap>
+                    <md-button ng-disabled="orgForm.$pristine" class="md-raised displaySubmitBt" ng-click="clearData(orgForm)">Clear</md-button>
+                    <md-button type="submit" ng-disabled="orgForm.$pristine || orgForm.$invalid" class="md-raised md-primary displaySubmitBt">Submit</md-button>
+                </section>
+
+            </form>
+        </md-content>
+    </div>

@@ -1,0 +1,60 @@
+<md-dialog class="commonDialog newUser">
+    <md-toolbar class="md-accent">
+        <div class="md-toolbar-tools">
+            <h2>Add New User</h2>
+        </div>
+    </md-toolbar>
+    <form name="newUser" novalidate>
+        <md-dialog-content>
+            <md-content>
+                <md-input-container class="md-block marginAuto">
+                    <label>Email</label>
+                    <input required type="email" name="email" ng-model="user.email" ng-pattern="/^.+@.+\..+$/" />
+
+                    <div ng-messages="newUser.email.$error" role="alert">
+                        <div ng-message="pattern">
+                            Not a valid Email.
+                        </div>
+                        <div ng-message="required">
+                            Email Required
+                        </div>
+                    </div>
+                </md-input-container>
+                <div layout="row" class="rowPadding">
+                        <div flex="15" style="display: inline-block">
+                            <h4 flex>Role:</h4>
+                        </div>
+                        <div flex="85">
+                            <md-radio-group layout="row" name="role" ng-model="user.role" required>
+                                <md-radio-button value="ADMIN"> Admin </md-radio-button>
+                                <md-radio-button value="ANALYST">Analyst</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                <md-divider></md-divider>
+
+                <div layout="row" layout-wrap flex>
+                    <div>
+                        <md-checkbox class="selectUnderLine" aria-label="Select All" ng-checked="isChecked()" md-indeterminate="isIndeterminate()" ng-click="toggleAll()">
+                            <span ng-if="isChecked()">Un-</span>Select All Account
+                        </md-checkbox>
+                    </div>
+                    <div class="demo-select-all-checkboxes" flex="100" ng-repeat="item in accountList">
+                        <md-checkbox name="account" ng-model="account" ng-required="selected.length==0" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                            {{ item.displayName }}
+                        </md-checkbox>
+                    </div>
+                </div>
+            </md-content>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="closeDialog()">
+                Cancel
+            </md-button>
+            <md-button class="md-raised md-accent margin-right-10" ng-disabled="newUser.$pristine || newUser.$invalid" ng-click="addNewUser()">
+                Add
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

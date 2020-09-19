@@ -1,0 +1,39 @@
+<div class="terms-frame">
+<md-card ng-controller="TermsController">
+    <md-toolbar class="padding-20 text-center">
+        <img ng-src="{{::vm.triSettings.logo}}" alt="{{vm.triSettings.name}}">
+        <h1 class="md-headline" translate>Terms and Conditions</h1>
+    </md-toolbar>
+
+    <md-content class="md-padding">
+    <form name="terms">
+        <div layout = "row" layout-sm = "column" flex="grow"  layout-align="left center">
+                <iframe src="/assets/documents/Terms&Conditions-V1.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="100%"></iframe>
+        </div>
+
+        <div layout = "row" layout-sm = "column" flex center layout-align="center center">
+                <md-progress-linear md-mode="indeterminate" ng-show="vm.termsLoading" class="md-accent"></md-progress-linear>
+        </div>
+
+         <div class="checkbox-div" layout = "row" layout-align="left center">
+            <div>
+              <md-checkbox id="accept" ng-model="acceptTerms" required>
+                I have read and agreed to the Terms and Conditions
+              </md-checkbox>
+              </div>
+              <span class="fill-space"></span>
+              <div ng-controller="LogoutController" ng-hide="vm.showReviewLater">
+                  <md-button class="md-raised md-accent margin-left-0 margin-right-0 margin-top-10 margin-bottom-10 terms-button"  ng-click="logout()" ng-disabled="termsdisable" translate="Disagree" aria-label="{{'Disagree' | triTranslate}}" type="submit">
+                    </md-button>
+             </div>
+             <md-button class="md-raised md-accent margin-left-10 margin-right-0 margin-top-10 margin-bottom-10 terms-button"   ng-click="vm.reviewLater()" ng-disabled="termsdisable" ng-show="vm.showReviewLater" translate="Review Later" aria-label="{{'Review Later' | triTranslate}}" type="submit">
+                <md-tooltip md-direction="left">Available under Notifications in Toolbar</md-tooltip>
+             </md-button>
+
+              <md-button class="md-raised md-accent margin-left-10 margin-right-0 margin-top-10 margin-bottom-10 terms-button"  ng-click="vm.acceptTerms()" ng-disabled="terms.$invalid || termsdisable" translate="Agree" aria-label="{{'Agree' | triTranslate}}" type="submit">
+                </md-button>
+         </div>
+       </form>  
+    </md-content>
+</md-card>
+</div>

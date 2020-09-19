@@ -1,0 +1,98 @@
+<div class="modules-code md-whiteframe-z1">
+    <div ng-show="vm.loadingError" class="error-msg padding-10">
+        {{vm.loadingError}}
+    </div>
+    <div layout="row" ng-hide="vm.isLoading || vm.loadingError" class="roasSetting" flex="grow">
+        <div flex="grow">
+            <md-content class="md-padding toolbar">
+                <md-card>
+                    <form name="accountRoas" novalidate ng-submit="accountRoasUpdate(accountRoas)">
+                        <div layout="row" layout-align="start center">
+                            <div layout="column">
+                                <div layout="row" ng-if="!showAcosEdit" class="roas-edit acos-edit" layout-align="start center">
+                                    <span layout="column" class="md-headline">Target Account ACOS (%): </span>
+                                    <span class="acos-total">
+                                           <span ng-if="accountRoasData.roas != undefined">{{accountRoasData.roas | removeLeadingZero}} %</span>
+                                    <md-icon style="padding-left: 10px" class="md-cyan-theme md-font material-icons zmdi zmdi-edit" ng-click="enableAcosEdit()" md-font-icon="zmdi zmdi-edit" aria-hidden="true">
+                                    </md-icon>
+                                    <!-- <md-icon ng-if="accountRoasData.roas != undefined" class="md-cyan-theme editIcon md-font material-icons zmdi zmdi-edit" ng-click="enableAcosEdit()" md-font-icon="zmdi zmdi-edit" aria-hidden="true">
+                                    </md-icon> -->
+                                    <!-- <md-button class="md-raised md-accent" ng-if="accountRoasData.roas != undefined" ng-click="enableAcosEdit()">Edit</md-button>
+                                    <md-button class="md-raised md-accent" ng-if="accountRoasData.roas == undefined" ng-click="enableAcosEdit()">Add</md-button> -->
+
+                                    </span>
+                                </div>
+                                <div layout="row" ng-if="showAcosEdit" layout-align="start center">
+                                    <span layout="column" class="md-headline">Target Account ACOS (%): </span>
+                                    <span class="roasTotal">
+                                    <md-input-container flex-xs flex-gt-xs="100" layout="column" class="md-block">
+                                        <input name="roas" id="acosInput" show-focus="showAcosEdit" ng-model="accountRoasData.roas" numbers-only required />
+                                        <div ng-messages="accountRoas.roas.$error">
+                                            <p ng-message="required">Account ACOS value is required.</p>
+                                        </div>                          
+                                    </md-input-container>
+                                </span>
+                                    <div layout="column" style="display: inline;" layout-align="end center">
+                                        <md-button class="md-raised md-accent" type="submit" ng-disabled="accountRoas.$pristine || accountRoas.$invalid">Save ACOS</md-button>
+                                        <md-button class="md-raised" ng-click="enableAcosEdit()">Cancel</md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </md-card>
+            </md-content>
+            <md-card class="roasTable">
+                <md-content>
+                    <div class="md-toolbar-tools">
+                        <div layout="row" class="md-table-toolbar" style="min-width: 300px;">
+                            <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-search" md-font-icon="zmdi zmdi-search" aria-hidden="true" style="cursor: pointer;color: gray;position:absolute;z-index: 1;margin-top: -2px;" ng-hide="searchtext.length">
+                                <md-tooltip md-direction="left">Search by column</md-tooltip>
+                            </md-icon>
+                            <input type="text" placeholder="Search by any column" class="search-input" ng-model="searchtext" style="padding-left: 24px; margin-left: -28px;">
+
+                            <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-close" md-font-icon="zmdi zmdi-close" aria-hidden="true" style="cursor: pointer;color: gray;position:absolute;z-index: 1;margin-top: -2px;" ng-click="clearFilter()" ng-show="searchtext.length">
+                                <md-tooltip md-direction="left">Clear Search</md-tooltip>
+                            </md-icon>
+                        </div>
+
+                        <md-button class="md-raised md-accent margin-right-10" ng-click="roasBulkEdit($event)" ng-disabled="checkLength()" translate="Edit ACOS" aria-label="Edit ACOS" style="right: 15px; position: absolute;color:white">
+                        </md-button>
+                    </div>
+                </md-content>
+                <!-- <md-progress-linear md-mode="indeterminate" ng-show="roasEditLoading"></md-progress-linear> -->
+                <md-table-container flex class="table-container" ng-hide="vm.isLoading || vm.loadingError" float-thead="floatValue" float-thead-enabled="floatEnable" ng-model="adminROASCampList">
+                    <table md-table md-row-select multiple ng-model="selected" md-progress="deferred" >
+
+                        <thead class="head-cls" md-head md-order="query.order" md-on-reorder="getDesserts">
+                            <tr md-row>
+                                <th md-column md-order-by="campaignName"><span>Campaign</span></th>
+                                <th md-column md-order-by="campaignType"><span>Type</span></th>
+                                <th md-column md-order-by="startDate"><span>Start Date</span></th>
+                                <th md-column md-order-by="endDate"><span>End Date</span></th>
+                                <th md-column md-order-by="roas"><span>Target ACOS (%)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody md-body class="tbody-cls">
+                            <tr md-row md-select="ROASData" ng-repeat="ROASData in adminROASCampList | filter: searchtext | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                                <td md-cell>{{ROASData.campaignName}}</td>
+                                <td md-cell>{{ROASData.campaignType}}</td>
+                                <td md-cell>{{ROASData.startDate}}</td>
+                                <td md-cell><span ng-hide="ROASData.endDate == '1900-01-01'">{{ROASData.endDate}}</span></td>
+                                <td md-cell class="roas-edit" ng-click="editROAS($event, ROASData)"><span ng-if="ROASData.roas != undefined">{{ROASData.roas | removeLeadingZero}} %</span>
+                                    <md-icon ng-if="ROASData.roas == undefined" class="md-cyan-theme md-font material-icons zmdi zmdi-edit" md-font-icon="zmdi zmdi-edit" aria-hidden="true">
+                                    </md-icon>
+                                    <md-icon ng-if="ROASData.roas != undefined" class="md-cyan-theme editIcon md-font material-icons zmdi zmdi-edit" md-font-icon="zmdi zmdi-edit" aria-hidden="true">
+                                    </md-icon>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <md-table-pagination class="pag-cls" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{adminROASCampList.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" class="pag-cls"></md-table-pagination>
+
+                </md-table-container>
+
+            </md-card>
+        </div>
+    </div>
+</div>

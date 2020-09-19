@@ -1,0 +1,79 @@
+<div layout="column">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-if="!vm.hideMenuButton()" ng-click="vm.openSideNav('left')" aria-label="side navigation">
+            <md-icon md-font-icon="zmdi zmdi-menu"></md-icon>
+        </md-button>
+
+        <span hide-xs md-subhead ng-show="userAction.isAdmin" class="flex-25 padding-right-10 md-subhead">
+        <md-select class="md-accent" ng-model="currentOrgId" ng-change="changeOrganization(currentOrgId)" placeholder="Choose organization">
+            <md-option class="md-accent" ng-repeat="org in organizations | orderBy:'name'" ng-value="org.organizationId" >{{org.name}}</md-option>
+        </md-select>
+    </span>
+
+
+        <span md-subhead class="flex-25 md-subhead" ng-show="showAccountMenu">
+        <md-select ng-model="currentAcId" ng-change="changeAccount(currentAcId)" placeholder="Choose Account">
+            <md-option  class="md-accent" ng-value="account.amsAccountId" ng-repeat="account in accounts track by account.displayName | orderBy:'displayName'">{{account.displayName}}</md-option>
+        </md-select>
+    </span>
+
+        <span md-subhead class="flex-25 md-subhead" ng-hide="showAccountMenu">
+        {{current_account.displayName}}
+    </span>
+
+        <div flex></div>
+        <div flex></div>
+        <div>
+
+            <md-button class="md-icon-button toolbar-button" ng-click="vm.toggleFullScreen()" ng-show="showFullScreenOption" aria-label="toggle fullscreen">
+                <md-tooltip md-direction="left">View Full Screen</md-tooltip>
+                <md-icon md-font-icon ng-class="vm.fullScreenIcon"></md-icon>
+            </md-button>
+        </div>
+
+        <md-button class="md-icon-button toolbar-button" ng-click="vm.toggleNotificationsTab(1)" ng-show="vm.showNotificationCount > 0">
+            <md-icon md-font-icon="fa fa-bell-o"></md-icon>-->
+            <span class="toolbar-button-badge" theme-background="accent">{{vm.showNotificationCount}}</span>
+        </md-button>
+
+        <span class="md-subhead userName">
+                {{vm.loggedInUser.user.email}}
+             </span>
+        <div>
+            <md-menu-bar class="user_menu_bar">
+                <md-menu>
+                    <md-button aria-label="Open user menu" class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="side navigation">
+                        <md-icon class="font-size-3 md-cyan-theme md-font material-icons zmdi zmdi-account-circle" md-font-icon="zmdi zmdi-account-circle" aria-hidden="true"></md-icon>
+                    </md-button>
+
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button class="md-accent" ng-click="navigateToProfile()" aria-label="side navigation">
+                                <md-icon md-font-icon="zmdi zmdi-account"></md-icon>
+                                Profile
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button class="md-accent" ng-click="navigateToHelp()" aria-label="side navigation">
+                                <md-icon md-font-icon="zmdi zmdi-help"></md-icon>
+                                Help
+                            </md-button>
+                        </md-menu-item>
+
+
+                        <md-menu-divider></md-menu-divider>
+
+                        <md-menu-item ng-controller="LogoutController">
+                            <md-button class="md-accent" ng-click="logout()" aria-label="side navigation">
+                                <md-icon md-font-icon="zmdi zmdi-sign-in"></md-icon>
+                                Logout
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-menu-bar>
+        </div>
+    </div>
+    <md-progress-linear md-mode="indeterminate" ng-show="isDashboardLoaded || isContentLoading || uploadingBids || roasLoading || budgetLoading"></md-progress-linear>
+</div>

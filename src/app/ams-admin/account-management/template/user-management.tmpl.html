@@ -1,0 +1,56 @@
+<div class="modules-code md-whiteframe-z1 userManagement">
+        <div ng-show="vm.loadingError" class="error-msg padding-10">
+            {{vm.loadingError}}
+        </div>
+        <div layout="row" ng-hide="vm.isLoading || vm.loadingError" class="userManagement" flex="grow">
+            <div flex="grow">
+                    <md-content style="overflow: hidden">
+                        <div class="md-toolbar-tools">
+                            <div layout="row" class="md-table-toolbar" style="min-width: 300px;">
+                                <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-search" md-font-icon="zmdi zmdi-search" aria-hidden="true" style="cursor: pointer;color: gray;position:absolute;z-index: 1;margin-top: -2px;" ng-hide="searchtext.length">
+                                    <md-tooltip md-direction="left">Search by column</md-tooltip>
+                                </md-icon>
+                                <input type="text" placeholder="Search by any column" class="search-input" ng-model="searchtext" style="padding-left: 25px;margin-left: -50px;">
+                            </div>
+                            <md-button class="md-raised md-accent margin-right-10" ng-if="accountListData.length >= 0" ng-click="newUserDialogOpen($event)" translate="New User" aria-label="New User" style="right: 125px; position: absolute;color:white">
+                            </md-button>
+                            <md-button class="md-raised md-accent margin-right-10" ng-click="bulkUserDelete($event)" ng-disabled="checkLength()" translate="Revoke" aria-label="Revoke" style="right: 15px; position: absolute;color:white">
+                            </md-button>
+                        </div>
+                    </md-content>
+                    <md-table-container flex class="table-container" ng-hide="vm.isLoading || vm.loadingError" float-thead="floatValue" float-thead-enabled="floatEnable" ng-model="userListData">
+                        <table md-table md-row-select multiple ng-model="selected" md-progress="deferred" >
+                            <thead class="head-cls" md-head md-order="query.order" md-on-reorder="getDesserts">
+                                <tr md-row>
+                                    <th md-column md-order-by="email"><span>Users</span></th>
+                                    <th md-column md-order-by="role"><span>Roles</span></th>
+                                    <th md-column md-order-by="status"><span>Status</span></th>
+                                    <th md-column ><span></span></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body class="tbody-cls">
+                                <tr md-row md-select="user" ng-repeat="user in userListData | filter: searchtext | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                                    <td md-cell><a href="" ng-click="editUser($event, user)">{{user.email}}</a></td>
+                                    <td md-cell>{{user.role | titleCase}}</td>
+                                    <td md-cell>{{user.status | titleCase}}</td>
+                                    <td md-cell>
+                                    <a ng-if="user.status == 'CREATED'"  class="md-raised md-accent margin-right-10" ng-click="resendActMail(user)">
+                                            Resend Activation  Email
+                                    </a>
+                                    <a ng-if="user.status == 'IN_ACTIVE'"  class="md-raised md-accent margin-right-10" ng-click="reactivateUser($event, user)">
+                                            Reactivate User
+                                    </a>
+                                    <!-- <md-icon class="md-raised md-accent" ng-if="user.status == 'IN_ACTIVE' || user.status == 'CREATED'" md-font-icon="zmdi zmdi-mail-send">
+                                        <md-tooltip md-direction="top">Resend Activation  Email</md-tooltip>
+                                    </md-icon> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <md-table-pagination class="pag-cls" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{userListData.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" class="pag-cls"></md-table-pagination> -->
+                    </md-table-container>
+            </div>
+        </div>
+    </div>
+
+

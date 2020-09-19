@@ -1,0 +1,200 @@
+<div class="modules-code md-whiteframe-z1">
+    <div layout="row" class="recommendation" flex="grow">
+        <div ng-show="vm.loadingError" class="error-msg padding-10">
+            {{vm.loadingError}}
+        </div>
+        <div ng-hide="isContentLoading || vm.loadingError" layout="column" style="background-color:white">
+            <md-toolbar class="md-table-toolbar md-default bid-toolbar" ng-hide="vm.loadingError || isContentLoading" flex="initial" ng-class="{'bid-toolbar-h1': chips == undefined || chips.length<3, 'bid-toolbar-h2':  chips.length>=3 && chips.length <= 6, 'bid-toolbar-h3': chips.length>6}">
+                <div class="md-toolbar-tools clear" flex="70">
+                    <div layout="column" flex class="toolbar-column">
+                        <div layout="row" style="margin-bottom: 10px;" flex="65">
+                            <!--div>
+                            <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-filter-list" md-font-icon="zmdi zmdi-filter-list" aria-hidden="true" style="cursor: pointer;color: gray; position: relative;left:0px">
+                            </md-icon>
+                        </div-->
+                            <div>
+                                <md-menu-bar style="padding-left: 0px;">
+                                    <md-menu>
+                                        <!--input type="text" placeholder="Filter by" class="filter-by" ng-click="$mdOpenMenu()"-->
+                                        <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-filter-list" md-font-icon="zmdi zmdi-filter-list" aria-hidden="true" style="cursor: pointer;color: gray; position: relative;left:0px" ng-click="$mdOpenMenu()">
+                                            <md-tooltip md-direction="left">Fliter</md-tooltip>
+                                        </md-icon>
+                                        <md-menu-content width="4">
+                                            <md-menu-item>
+                                                <md-button ng-click="showFilterByCampaigns()" aria-label="side navigation">
+                                                    Campaigns
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showFilterByText('keywordText')" aria-label="side navigation">
+                                                    Keywords
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showMatchTypeFilter('matchType')" aria-label="side navigation">
+                                                    Match Type
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showCommonFilter('roas')" aria-label="side navigation">
+                                                    ROAS
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showCommonFilter('acos')" aria-label="side navigation">
+                                                    ACOS
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showCommonFilter('currentBid')" aria-label="side navigation">
+                                                    Max CPC Bid
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showCommonFilter('spend')" aria-label="side navigation">
+                                                    Spend
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showCommonFilter('revenue')" aria-label="side navigation">
+                                                    Revenue
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showCommonFilter('impressions')" aria-label="side navigation">
+                                                    Impressions
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="showCommonFilter('clicks')" aria-label="side navigation">
+                                                    Clicks
+                                                </md-button>
+                                            </md-menu-item>
+                                        </md-menu-content>
+                                    </md-menu>
+                                </md-menu-bar>
+                            </div>
+                            <div>
+                                <md-chips ng-model="chips" readonly="true" md-removable="true" md-max-chips="5" md-on-remove="removeAppliedFilter($chip)">
+                                    <md-chip-template>
+                                        <strong>{{$chip.name}}: {{$chip.operator}} {{$chip.value}}</strong>
+                                    </md-chip-template>
+                                </md-chips>
+                            </div>
+                        </div>
+                        <div style="color: green; font-size: 14px;margin-top: auto;" ng-show="oMessage != undefined && (chips == undefined || chips.length==0)" hide-sm hide-xs>
+                            <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-info-outline" md-font-icon="zmdi zmdi-filter-list" aria-hidden="true" ng-click="showFilter()" ng-hide="displayFilter" style="color:green">
+                            </md-icon>
+                            <span>{{oMessage}}</span>
+                        </div>
+                    </div>
+                    <div layout="column" class="action-column">
+                        <div style="margin-bottom: 5px">
+                            
+                                <!--md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-download" md-font-icon="zmdi zmdi-download" style="position: absolute;top: 10px;right: 180px;cursor: pointer;" title="Download CSV" ng-click="downloadData()"  >
+                                </md-icon>
+                                <span id="csv-data" ng-csv="keywordCSVData" csv-header="headers" filename="sponsored_keyword_bids.csv" field-separator="," decimal-separator="." /-->
+
+                            <md-menu-bar style="display: initial;padding-right: 10px">
+                                <md-menu>
+                                    <div ng-click="$mdOpenMenu()" class="date-range">{{displayDateRangeText}}
+                                        <md-icon md-font-icon="zmdi zmdi-caret-down"></md-icon>
+                                    </div>
+                                    <md-menu-content width="3" style="padding:0px">
+                                        <md-menu-item>
+                                            <md-button ng-click="loadBidsForChangedDates('Last 7 days')" aria-label="side navigation">
+                                                Last 7 days
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="loadBidsForChangedDates('Last 14 days')" aria-label="side navigation">
+                                                Last 14 days
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="loadBidsForChangedDates('Last 30 days')" aria-label="side navigation">
+                                                Last 30 days
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="loadBidsForChangedDates('Current Month')" aria-label="side navigation">
+                                                Current month
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="loadBidsForChangedDates('Previous Month')" aria-label="side navigation">
+                                                Previous month
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="selectDateRange()" aria-label="side navigation">
+                                                Custom
+                                            </md-button>
+                                        </md-menu-item>
+                                    </md-menu-content>
+                                </md-menu>
+                            </md-menu-bar>
+                        </div>
+                        <div>
+                            <md-button class="md-raised md-accent margin-right-10" flex="30" ng-click="showCPCEdit()" ng-disabled="isIncontext || selected.length==0" translate="Edit Bids" aria-label="{{'Edit Bids' | triTranslate}}">
+                            </md-button>
+                            <md-button class="md-raised md-accent margin-right-10" flex="30" ng-click="vm.recommendation.error=false;showRecommendationsPopup()" ng-disabled="isIncontext || selected.length==0" translate="Apply Recommendations" aria-label="{{'Upload Bids' | triTranslate}}">
+                            </md-button>
+
+                            <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-download download-icon" md-font-icon="zmdi zmdi-download" ng-click="downloadData()"></md-icon>    
+                            
+                            <span id="csv-data" ng-csv="keywordCSVData" csv-header="headers" filename="sponsored_keyword_bids.csv" field-separator="," decimal-separator="." />
+
+
+                        </div>
+                    </div>
+                </div>
+            </md-toolbar>
+            <!--  <div ng-show="vm.error" class="error-msg">
+                {{vm.error}}
+            </div> -->
+            <div id="filterOptions"></div>
+            <md-table-container flex class="table-container" flex ng-class="{'table-container-1': chips == undefined || chips.length<3, 'table-container-2':  chips.length>=3 && chips.length <= 6, 'table-container-3': chips.length>6}" float-thead="floatValue" float-thead-enabled="floatEnable" ng-model="keywordBids" ng-hide="vm.loadingError || isContentLoading">
+                <table md-table md-row-select multiple ng-model="selected" md-progress="deferred">
+                    <thead class="head-cls" md-head md-order="query.order" id="scrollHead" md-on-reorder="onReorder" md-disable-sort="true">
+                        <tr md-row>
+                            <th md-column md-order-by="keywordText" title="Keyword"><span>Keyword</span></th>
+                            <th md-column title="Match Type">Match Type</th>
+                            <th md-column md-order-by="campaign" ng-click="showLoader" title="Campaign"><span>Campaign</span></th>
+                            <th md-column md-numeric title="Current Bid">Current Bid<md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-info-outline" md-font-icon="zmdi zmdi-info-outline" aria-hidden="true" style="padding-top:3px;visibility: hidden;"></md-icon>
+                            </th>
+                            <th md-column md-numeric md-order-by="recommendedBid" title="Recommended Bid">Reco. Bid</th>
+                            <th md-column md-numeric md-order-by="spend" title="Spend">Spend</th>
+                            <th md-column md-numeric md-order-by="revenue" title="Revenue">Revenue</th>
+                            <th md-column md-numeric md-order-by="roas" title="ROAS">ROAS</th>
+                            <th md-column md-numeric md-order-by="acos" title="ACOS">ACOS</th>
+                            <th md-column md-numeric md-order-by="updatedDate" title="Bids Updated Date">Bids Updated Date
+                                <!--md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-info-outline" md-font-icon="zmdi zmdi-info-outline" aria-hidden="true" style="padding-top:10px;margin-left: 0px;" title="UTC Time" style="cursor: pointer;"></md-icon-->
+                            </th>
+                            <th md-column md-order-by="status" md-numeric ng-show="showStatus" title="Failed Status">Failed Status</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body class="tbody-cls">
+                        <tr md-row md-select="keyWordBid" ng-repeat="keyWordBid in keywordBids" ng-class="{'error-row': keyWordBid.status.length > 0}" md-on-select="itsBulkEdit">
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.keywordText}}">{{keyWordBid.keywordText}}</td>
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.matchType}}">{{keyWordBid.matchType}}</td>
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.campaign}}">{{keyWordBid.campaign}}</td>
+                            <td md-cell ng-click="editBid($event, keyWordBid)" class="bid-edit" ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.currentBid | currency: currency}}">{{keyWordBid.currentBid | currency: currency}}
+                                <md-icon class="md-cyan-theme md-font material-icons zmdi zmdi-edit" md-font-icon="zmdi zmdi-edit" aria-hidden="true" style="cursor: pointer;"></md-icon>
+                            </td>
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.recommendedBid | currency:currency}}">{{keyWordBid.recommendedBid | currency:currency}}</td>
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.spend | currency:currency}}">{{keyWordBid.spend | currency:currency}}</td>
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.revenue | currency:currency}}">{{keyWordBid.revenue | currency:currency}}</td>
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.roas | number : 2}}">{{keyWordBid.roas | number : 2}}</td>
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.acos | number : 2}}">{{keyWordBid.acos | number : 2}}</td>
+                            <td md-cell ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.updatedDate | date:"yyyy-MM-dd HH:mm"}}">{{keyWordBid.updatedDate | date:"yyyy-MM-dd HH:mm"}}</td>
+                            <td md-cell ng-show="showStatus" style="color:red" ng-class="{'faded-font': isPaginated}" title="{{keyWordBid.status}}">{{keyWordBid.status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{query.total}}" md-on-paginate="onPaginationChange" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" class="pag-cls"></md-table-pagination>
+            <!--  <md-progress-circular md-mode="indeterminate" ng-show="isPaginated" class="md-accent" style="position: absolute;top: 50%; left: 50%"></md-progress-circular> -->
+        </div>
+    </div>
+</div>
